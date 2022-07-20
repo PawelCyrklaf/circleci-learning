@@ -1,29 +1,37 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0
-jobs:
-  build:
-    working_directory: /docker-app
-    docker:
-      - image: docker:latest
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: "Install dependencies"
-          command: |
-            apk add --no-cache \
-              py-pip 
-            pip install  \
-              awscli
-      - run:
-          name: "Build docker image"
-          command: |
-            docker build -t circleci-learning ./docker-app
-      - deploy:
-          name: "Push to AWS ECR"
-          command: |
-            login="$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)" 
-            ${login}
-            docker tag circleci-learning "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
-            docker push "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
+  aws-ecr: circleci/aws-ecr@8.1.2
+  aws-ecs: circleci/aws-ecs@2.1.1
+# jobs:
+#   build:
+#     working_directory: /docker-app
+#     docker:
+#       - image: docker:latest
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       - run:
+#           name: "Install dependencies"
+#           command: |
+#             apk add --no-cache \
+#               py-pip 
+#             pip install  \
+#               awscli
+#       - run:
+#           name: "Build docker image"
+#           command: |
+#             docker build -t circleci-learning ./docker-app
+#       - deploy:
+#           name: "Push to AWS ECR"
+#           command: |
+#             login="$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)" 
+#             ${login}
+#             docker tag circleci-learning "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
+#             docker push "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
+workflows:
+  build-and-deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          repo: "${ECR_ENDPOINT}/circleci-learning"
+          tag: "${CIRCLE_SHA1}"
