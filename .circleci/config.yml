@@ -12,7 +12,7 @@ workflows:
           dockerfile: docker-app/Dockerfile
           path: .
       - aws-ecs/deploy-service-update:
-          cluster: $ECS_SERVICE
+          cluster: $ECS_CLUSTER_NAME
           container-image-name-updates: "container=${CONTAINER_NAME},image-and-tag=${IMAGE_AND_TAG_NAME}"
           family: $ECS_TASK_FAMILY
           service-name: $ECS_SERVICE
