@@ -7,14 +7,14 @@ workflows:
   build-and-deploy:
     jobs:
       - aws-ecr/build-and-push-image:
-          repo: circleci-learning
+          repo: $REPOSITORY_NAME
           tag: "latest"
           dockerfile: docker-app/Dockerfile
           path: .
       - aws-ecs/deploy-service-update:
-          cluster: 'CircleCI-cluster'
-          container-image-name-updates: 'container=circleci,image-and-tag=177394270612.dkr.ecr.eu-central-1.amazonaws.com/circleci-learning:latest'
-          family: 'circleci-task'
-          service-name: 'circleci-service'
+          cluster: $ECS_SERVICE
+          container-image-name-updates: "container=${CONTAINER_NAME},image-and-tag=${IMAGE_AND_TAG_NAME}"
+          family: $ECS_TASK_FAMILY
+          service-name: $ECS_SERVICE
           requires:
             - aws-ecr/build-and-push-image
