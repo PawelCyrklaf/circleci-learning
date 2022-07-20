@@ -3,13 +3,6 @@ orbs:
   aws-cli: circleci/aws-cli@3.1.0
   aws-ecr: circleci/aws-ecr@8.1.0
   aws-ecs: circleci/aws-ecs@3.0.0
-jobs:
-  say_hello:
-    description: "Say hello CircleCi"
-    docker:
-      - image: ubuntu:latest
-    steps:
-      - run: echo "Hello from commands"
 workflows:
   build-and-deploy:
     jobs:
@@ -18,7 +11,6 @@ workflows:
           tag: "latest"
           dockerfile: docker-app/Dockerfile
           path: .
-      - say_hello
       - aws-ecs/deploy-service-update:
           cluster: $ECS_CLUSTER_NAME
           container-image-name-updates: "container=${CONTAINER_NAME},image-and-tag=${IMAGE_AND_TAG_NAME}"
