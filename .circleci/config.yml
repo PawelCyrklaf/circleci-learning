@@ -23,7 +23,7 @@ jobs:
       - deploy:
           name: "Push to AWS ECR"
           command: |
-              login="$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)" 
-              ${login}
-              docker tag circleci-learning "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
-              docker push "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}" 
+            login="$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)" 
+            ${login}
+            docker tag circleci-learning "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
+            docker push "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
