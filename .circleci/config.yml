@@ -19,13 +19,11 @@ jobs:
       - run:
           name: "Build docker image"
           command: |
-            docker build -t docker-app ./docker-app
+            docker build -t circleci-learning ./docker-app
       - deploy:
           name: "Push to AWS ECR"
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then \
-              login="$(aws ecr get-login)" \
-              ${login} \
-              docker tag app "${ECR_ENDPOINT}:${CIRCLE_SHA1}" \
-              docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}" 
-            fi
+              login="$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)" 
+              ${login}
+              docker tag circleci-learning "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}"
+              docker push "${ECR_ENDPOINT}/circleci-learning:${CIRCLE_SHA1}" 
