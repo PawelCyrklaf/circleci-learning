@@ -8,5 +8,6 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           repo: circleci-learning
-          tag: "${CIRCLE_SHA1}"
-          dockerfile: ./docker-app
+          tag: "${CIRCLE_BUILD_NUM}"
+          dockerfile: docker-app/Dockerfile
+          path: .
