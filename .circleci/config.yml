@@ -2,11 +2,13 @@ version: 2.1
 jobs:
   build:
     working_directory: /docker-app
-    docker: 
-    - image: docker:latest
+    docker:
+      - image: docker:latest
     steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run:
           name: "Install dependencies"
           command: |
             pip install awscli
-
