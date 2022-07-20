@@ -1,8 +1,7 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-    - image: node:latest
+commands:
+  say_hello:
+    description: "Say Hello World"
     steps:
-      - checkout
-      - run: echo "Hello World from CircleCi"
+    - run: echo "Hello from commands"
+  
