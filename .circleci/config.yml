@@ -15,6 +15,6 @@ workflows:
           cluster: 'CircleCI-cluster'
           container-image-name-updates: 'container=circleci,image-and-tag=circleci-learning:latest'
           family: 'circleci-task'
-          service: 'circleci-service'
+          service-name: 'circleci-service'
           requires:
             - aws-ecr/build-and-push-image
