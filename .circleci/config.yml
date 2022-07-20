@@ -1,7 +1,14 @@
 version: 2.1
+jobs:
+  build:
+    docker:
+    - image: node:latest
+    steps:
+      - checkout
+      - run: echo "Hello World from jobs"
+
 commands:
   say_hello:
     description: "Say Hello World"
     steps:
     - run: echo "Hello from commands"
-  
