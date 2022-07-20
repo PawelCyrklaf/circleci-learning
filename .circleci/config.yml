@@ -2,13 +2,6 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0
 jobs:
-  aws-cli-cred-setup:
-    executor: aws-cli/default
-    steps:
-      - aws-cli/setup:
-          aws-access-key-id: ${AWS_ACCESS_KEY}
-          aws-secret-access-key: ${AWS_SECRET_KEY}
-          aws-region: ${AWS_REGION}
   build:
     working_directory: /docker-app
     docker:
@@ -33,6 +26,6 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
               login="$(aws ecr get-login)"
               ${login}
-              docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
-              docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+              docker tag app "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+              docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
             fi
