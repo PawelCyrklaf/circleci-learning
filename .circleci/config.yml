@@ -14,3 +14,7 @@ jobs:
               py-pip 
             pip install  \
               awscli
+      - run:
+          name: "Build docker image"
+          command: |
+            docker build -t .
