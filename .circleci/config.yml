@@ -9,16 +9,16 @@ jobs:
     docker:
       - image: ubuntu:latest
     steps:
-    - run: echo "Hello from commands"
+      - run: echo "Hello from commands"
 workflows:
   build-and-deploy:
     jobs:
-      - say_hello
       - aws-ecr/build-and-push-image:
           repo: $REPOSITORY_NAME
           tag: "latest"
           dockerfile: docker-app/Dockerfile
           path: .
+      - say_hello
       - aws-ecs/deploy-service-update:
           cluster: $ECS_CLUSTER_NAME
           container-image-name-updates: "container=${CONTAINER_NAME},image-and-tag=${IMAGE_AND_TAG_NAME}"
