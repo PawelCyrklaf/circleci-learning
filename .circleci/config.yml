@@ -18,3 +18,12 @@ jobs:
           name: "Build docker image"
           command: |
             docker build -t docker-app ./docker-app
+      - deploy:
+          name: "Push to AWS ECR"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "main" ]; then
+              login="$(aws ecr get-login)"
+              ${login}
+              docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+              docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+            fi
