@@ -13,7 +13,7 @@ workflows:
           path: .
       - aws-ecs/deploy-service-update:
           cluster: 'CircleCI-cluster'
-          container-image-name-updates: 'image-and-tag=circleci-learning:latest'
+          container-image-name-updates: 'image=circleci-learning'
           family: 'circleci-task'
           requires:
             - aws-ecr/build-and-push-image
